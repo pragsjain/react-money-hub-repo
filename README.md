@@ -29,17 +29,24 @@ Consider opportunities to reduce repetition in the code and increase legibility
 - This could be creating new components, simplifying existing ones, extracting helper function to simplify code or styling
 - Show us what you can do and implement a few of these if you have time
 
-We also ask that you update the readme with answers to the following questions 
+We also ask that you update the readme with answers to the following questions
 
 1. Given more time, what other changes you would have liked to make?
+   - I would like to move the functions to utils or helper folder
+   - I would like to like to break index component into more components passing props
+
 2. What UX or design improvements or alterations might you suggest? These can be to existing components or completely new ideas.
+   -I would like to add Shimmer effect in UI that makes user experience smooth unless data is loaded
+   -I would make it semantically more accessible and add web accebility properties like aria-label and aria-required
 
 ----
 
 **Optional**: If you have time, show us some more by fetching the data from the api
   - Currently the property data is hardcoded in the component, but it is also avaible via a Next.js api route
   - Details of a property are located in the API at `/api/account`, use this endpoint to populate the app with data
+   -- Done using useEffect hook and axios
   - Use whichever method or library you are comfortable with to fetch the data
+   --(Used axios)
 
 ----
 
@@ -63,7 +70,7 @@ Most of your work should take place inside the `components/` and `modules/` dire
 
 ### Notes
 
-We recommend working through the list of requirements above but don't expect you to finish all of them. We're more interested in seeing how you approach the problem than seeing a perfect example, please only spend a few hours working on it. 
+We recommend working through the list of requirements above but don't expect you to finish all of them. We're more interested in seeing how you approach the problem than seeing a perfect example, please only spend a few hours working on it.
 
 On completion, email a link to your repository to your contact at Moneyhub, and ensure it is publicly accessible.
 
