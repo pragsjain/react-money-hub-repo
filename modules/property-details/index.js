@@ -1,15 +1,16 @@
 /* eslint-disable max-statements */
 import { add, format } from "date-fns";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
 import {
   AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, InfoHighlight, Inset
 } from "./style";
+import axios from 'axios';
 
 
-const account = {
+const initialAccount = {
   uid: "65156cdc-5cfd-4b34-b626-49c83569f35e",
   deleted: false,
   dateCreated: "2020-12-03T08:55:33.421Z",
@@ -33,23 +34,36 @@ const account = {
   lastUpdate: "2020-12-01T08:55:33.421Z",
   updateAfterDays: 30,
 };
+const get_account_url =  'http://localhost:3333/api/account';
 
-function sincePurchase() {
-  return account.recentValuation?.amount-account.originalPurchasePrice;
-}
-
-function sincePurchasePercentage() {
-  return ((account.recentValuation.amount-account.originalPurchasePrice)/ account.originalPurchasePrice * 100);
-}
-
-function annualAppreciation() {
-  const noOfYearsSincePurchased = new Date().getFullYear()-account.originalPurchasePriceDate.split('-')[0]
-  console.log(noOfYearsSincePurchased,noOfYearsSincePurchased)
-  return ((account.recentValuation.amount-account.originalPurchasePrice)/ noOfYearsSincePurchased);
-}
 
 const Detail = ({}) => {
   let mortgage;
+
+  const [account, setAccount] = useState(initialAccount);
+
+  useEffect(() => {
+    axios.get(get_account_url).then((response) => {
+      console.log(response)
+      setAccount(response.data.account);
+    });
+  }, []);
+
+  function sincePurchase() {
+    return account.recentValuation?.amount-account.originalPurchasePrice;
+  }
+
+  function sincePurchasePercentage() {
+    return ((account.recentValuation.amount-account.originalPurchasePrice)/ account.originalPurchasePrice * 100);
+  }
+
+  function annualAppreciation() {
+    const noOfYearsSincePurchased = new Date().getFullYear()-account.originalPurchasePriceDate.split('-')[0]
+    console.log(noOfYearsSincePurchased,noOfYearsSincePurchased)
+    return ((account.recentValuation.amount-account.originalPurchasePrice)/ noOfYearsSincePurchased);
+  }
+
+
   const lastUpdate = new Date(account.lastUpdate);
   if (account.associatedMortgages.length) {
     mortgage = account.associatedMortgages[0];
