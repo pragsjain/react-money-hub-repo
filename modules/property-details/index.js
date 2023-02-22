@@ -1,10 +1,11 @@
 /* eslint-disable max-statements */
 import { add, format } from "date-fns";
 import React from "react";
+
 import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
 import {
-  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, Inset
+  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, InfoHighlight, Inset
 } from "./style";
 
 
@@ -32,6 +33,20 @@ const account = {
   lastUpdate: "2020-12-01T08:55:33.421Z",
   updateAfterDays: 30,
 };
+
+function sincePurchase() {
+  return account.recentValuation?.amount-account.originalPurchasePrice;
+}
+
+function sincePurchasePercentage() {
+  return ((account.recentValuation.amount-account.originalPurchasePrice)/ account.originalPurchasePrice * 100);
+}
+
+function annualAppreciation() {
+  const noOfYearsSincePurchased = new Date().getFullYear()-account.originalPurchasePriceDate.split('-')[0]
+  console.log(noOfYearsSincePurchased,noOfYearsSincePurchased)
+  return ((account.recentValuation.amount-account.originalPurchasePrice)/ noOfYearsSincePurchased);
+}
 
 const Detail = ({}) => {
   let mortgage;
@@ -72,6 +87,33 @@ const Detail = ({}) => {
           </AccountList>
         </RowContainer>
       </AccountSection>
+      {<AccountSection>
+        <AccountLabel>Valuation Change</AccountLabel>
+        <RowContainer>
+          <AccountList>
+            <AccountListItem>
+              <InfoText>{
+              `Purchased for
+               ${new Intl.NumberFormat("en-GB", {
+                  style: "currency",
+                  currency: "GBP",
+                  }).format(account.recentValuation.amount)}
+                in
+                ${format(lastUpdate, "MMM")}, ${format(lastUpdate, "yyyy")}`}
+              </InfoText></AccountListItem>
+            <AccountListItem><InfoText>{`Since purchace`}</InfoText>
+              <InfoHighlight>{new Intl.NumberFormat("en-GB", {
+                style: "currency",
+                currency: "GBP",
+                }).format((sincePurchase()))}
+                ({sincePurchasePercentage()}%)
+              </InfoHighlight>
+            </AccountListItem>
+            <AccountListItem><InfoText>{`Annual appreciation`}</InfoText>
+            <InfoHighlight>{annualAppreciation()}%</InfoHighlight></AccountListItem>
+          </AccountList>
+        </RowContainer>
+      </AccountSection> }
       {mortgage && (
         <AccountSection>
           <AccountLabel>Mortgage</AccountLabel>
